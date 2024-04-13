@@ -6,6 +6,7 @@ import os
 
 pygame.init()
 text_font = pygame.font.SysFont("Formula1", 40)
+water_markfont = pygame.font.SysFont("Formula1", 20)
 
 base = pygame.image.load(os.path.join('img', 'base.png'))
 base_width, base_height = base.get_size()
@@ -151,6 +152,23 @@ def draw_text(window: pygame.Surface, x: int, y: int, g_force_value: float):
 
     # Render it.
     window.blit(g_force_text, (x - text_width / 2, y - text_height / 2))
+
+
+def draw_watermark(window: pygame.Surface, x: int, y: int):
+    """
+    Function that draw the watermarK.
+
+    :param window: window where the tyre widget will be drawn. 
+    :param x: x coordinate of the G force widget.
+    :param y: y coordinate of the G force widget.
+    :param g_force_value: the G force value associed to the text. 
+    """
+    # Create and center the text.
+    watermark = water_markfont.render("Made by romain_flcht", True, (255, 255, 255))
+    text_width, text_height = watermark.get_size()
+
+    # Render it.
+    window.blit(watermark, (x - text_width / 2, y - text_height / 2))
 
 
 def parse_g_force_data(lat_g_force: float, long_g_force: float) -> tuple:

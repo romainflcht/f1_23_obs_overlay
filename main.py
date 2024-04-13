@@ -5,7 +5,13 @@ from config import *
 from graphics_functions import *
 
 
-listener = TelemetryListener(host=IP_HOST, port=PORT_HOST, timeout=.1)
+try:
+    listener = TelemetryListener(host=IP_HOST, port=PORT_HOST, timeout=.1)
+
+except OSError:
+    print("[ERROR] Another program is listening to the same UDP port, try closing it and retry...")
+    exit(1)
+
 overlay_window = pygame.display.set_mode((W_WIDTH, W_HEIGHT)) 
 
 # Window configuration.
@@ -49,6 +55,9 @@ if __name__ == "__main__":
 
         # Draw steer widget.
         draw_steer_widget(overlay_window, W_WIDTH / 2, TYRE_WIDGET_HEIGHT + 150, steer_angle)
+
+        # Draw the watermark. 
+        draw_watermark(overlay_window, W_WIDTH / 2, W_HEIGHT - 10)
 
         # Update data from the UDP stream.
         match data_type:
